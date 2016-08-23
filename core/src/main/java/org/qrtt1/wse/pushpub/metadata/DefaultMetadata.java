@@ -26,7 +26,7 @@ public class DefaultMetadata implements IMetadata {
     @Override
     public boolean updateGroupMasterPlaylistPlaybackURI(String groupName, PlaylistModel masterPlaylist) {
         boolean retVal = true;
-        String newPath = basePath() + groupName + "/" + masterPlaylist.getUri().getPath();
+        String newPath = playlistBasePath() + groupName + "/" + masterPlaylist.getUri().getPath();
         try {
             masterPlaylist.setUri(new URI(newPath));
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class DefaultMetadata implements IMetadata {
     @Override
     public boolean updateMasterPlaylistPlaybackURI(PlaylistModel playlist) {
         boolean retVal = true;
-        String path = basePath() + pushSource.getDstStreamName() + "/" + playlist.getUri().toString();
+        String path = playlistBasePath() + pushSource.getDstStreamName() + "/" + playlist.getUri().toString();
         try {
             playlist.setUri(new URI(path));
         } catch (URISyntaxException e) {
@@ -53,7 +53,7 @@ public class DefaultMetadata implements IMetadata {
     public boolean updateMediaPlaylistPlaybackURI(PlaylistModel playlist) {
         boolean retVal = true;
 
-        String path = basePath() + pushSource.getDstStreamName() + "/" + playlist.getUri().toString();
+        String path = playlistBasePath() + pushSource.getDstStreamName() + "/" + playlist.getUri().toString();
         try {
             playlist.setUri(new URI(path));
         } catch (URISyntaxException e) {
@@ -73,7 +73,7 @@ public class DefaultMetadata implements IMetadata {
         // media segments in.
 
         try {
-            String temp = pushSource.getRandomSessionStr() + "/" + newPath;
+            String temp = mediaBasePath() + pushSource.getRandomSessionStr() + "/" + newPath;
             mediaSegment.setUri(new URI(temp));
         } catch (Exception e) {
             retVal = false;
@@ -87,9 +87,16 @@ public class DefaultMetadata implements IMetadata {
         return "defaultMetadata";
     }
 
-    protected String basePath() {
-        if (dataMap.containsKey("storage.basePath")) {
-            return dataMap.get("storage.basePath");
+    protected String mediaBasePath() {
+        if (dataMap.containsKey("storage.media.basePath")) {
+            return dataMap.get("storage.media.basePath");
+        }
+        return "../";
+    }
+
+    protected String playlistBasePath() {
+        if (dataMap.containsKey("storage.playlist.basePath")) {
+            return dataMap.get("storage.playlist.basePath");
         }
         return "../";
     }

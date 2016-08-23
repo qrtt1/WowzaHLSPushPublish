@@ -10,6 +10,10 @@ public class SimpleStorageFactory {
     @SuppressWarnings("unchecked")
     public static ISimpleStorage createByClass(String className) {
 
+        if (className == null) {
+            return new NullSimpleStorage();
+        }
+
         try {
             Class<? extends ISimpleStorage> clazz = (Class<? extends ISimpleStorage>) Class.forName(className);
             return clazz.newInstance();

@@ -10,15 +10,10 @@ subprojects {
 
     configurations {
         wowzaLibs
-            compile.extendsFrom wowzaLibs
-    }
-
-    dependencies {
-        wowzaLibs fileTree(dir: WOWZA_LIBS, include: "*.jar")
+        compile.extendsFrom wowzaLibs
     }
 
     targetCompatibility = '1.6'
     sourceCompatibility = '1.6'
+
 }
-
-

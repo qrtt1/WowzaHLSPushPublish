@@ -1,7 +1,23 @@
-include 'api'
-include 'core'
-
 rootProject.name = 'WowzaHLSPushPublish'
-project(":api").name = "WowzaHLSPushPublishAPI"
-project(":core").name = "WowzaHLSPushPublishBridge"
 
+// dynamic load the directory as module
+
+void configureModule(moduleName, properties) {
+    def config = properties.withInputStream {
+        Properties prop = new Properties()
+        prop.load(it)
+        return prop
+    }
+    include moduleName
+    project(":" + moduleName).name = config['name']
+}
+
+file(".").listFiles().each {
+    if (it.isDirectory()) {
+        def moduleFile = new File(it, "module.properties")
+        def foundModuleProps = moduleFile.exists()
+        if (foundModuleProps) {
+            configureModule(it.name, moduleFile)
+        }
+    }
+}

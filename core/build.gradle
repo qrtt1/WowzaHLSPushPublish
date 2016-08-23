@@ -1,8 +1,8 @@
 
 dependencies {
     compile project(":WowzaHLSPushPublishAPI")
+    wowzaLibs fileTree(dir: WOWZA_LIBS, include: "*.jar")
 }
-
 
 task bundleModule(type: Jar, dependsOn: build) {
     archiveName = "${project.name}.jar"

@@ -1,0 +1,7 @@
+include 'api'
+include 'core'
+
+rootProject.name = 'WowzaHLSPushPublish'
+project(":api").name = "WowzaHLSPushPublishAPI"
+project(":core").name = "WowzaHLSPushPublishBridge"
+

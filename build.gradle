@@ -1,0 +1,35 @@
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+
+    repositories {
+        jcenter()
+    }
+
+    configurations {
+        wowzaLibs
+            compile.extendsFrom wowzaLibs
+    }
+
+    dependencies {
+        wowzaLibs fileTree(dir: WOWZA_LIBS, include: "*.jar")
+    }
+
+    targetCompatibility = '1.6'
+    sourceCompatibility = '1.6'
+}
+
+// task bundleModule(type: Jar, dependsOn: build) {
+//     archiveName = "${project.name}.jar"
+//     destinationDir = new File("${project.buildDir}/dist/")
+//     def deps = configurations.compile.findAll() - configurations.wowzaLibs.findAll()
+//     deps.each {
+//         from zipTree(it)
+//     }
+//     from zipTree("${project.buildDir}/libs/${project.name}.jar")
+// }
+
+
+

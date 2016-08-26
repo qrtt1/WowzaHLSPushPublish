@@ -1,0 +1,15 @@
+dependencies {
+    compile project(":WowzaHLSPushPublishAPI")
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+}
+
+task bundleModule(type: Jar, dependsOn: build) {
+    archiveName = "${project.name}.jar"
+    destinationDir = new File("${project.buildDir}/dist/")
+    def deps = configurations.compile.findAll() - configurations.wowzaLibs.findAll()
+    deps.each {
+        from zipTree(it)
+    }
+    from zipTree("${project.buildDir}/libs/${project.name}.jar")
+    exclude ("META-INF/*")
+}

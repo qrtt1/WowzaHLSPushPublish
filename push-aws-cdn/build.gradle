@@ -1,0 +1,17 @@
+dependencies {
+    compile project(":WowzaHLSPushPublishAPI")
+//    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.29'
+    compile ("com.amazonaws:aws-java-sdk-s3:1.10.44")
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+}
+
+task bundleModule(type: Jar, dependsOn: build) {
+    archiveName = "${project.name}.jar"
+    destinationDir = new File("${project.buildDir}/dist/")
+    def deps = configurations.compile.findAll() - configurations.wowzaLibs.findAll()
+    deps.each {
+        from zipTree(it)
+    }
+    from zipTree("${project.buildDir}/libs/${project.name}.jar")
+    exclude ("META-INF/*")
+}

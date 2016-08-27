@@ -1,0 +1,5 @@
+
+task releaseApi(dependsOn: jar, type: Copy) {
+    from project.libsDir
+    into rootProject.file("./prebuilt")
+}
